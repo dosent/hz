@@ -5,4 +5,5 @@ import ru.neshin.downloader.model.DownloadFileInfo;
 
 public interface DownloadFileInfoRepository extends CrudRepository<DownloadFileInfo, Long> {
 
+    DownloadFileInfo findByVersionId(int versionId);
 }

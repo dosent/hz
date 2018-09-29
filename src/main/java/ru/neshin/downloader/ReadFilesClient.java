@@ -44,23 +44,24 @@ public class ReadFilesClient extends WebServiceGatewaySupport {
             e.printStackTrace();
         }
         for (ru.neshin.downloader.model.DownloadFileInfo d: downloadFileInfoRepository.findAll()) {
-            LOG.info(d.toString());
         }
         LOG.info("Read web service stop");
     }
 
     private void saveDownloadFileInfo(DownloadFileInfo fileInfo) {
-        ru.neshin.downloader.model.DownloadFileInfo downloadFileInfo = new
-                ru.neshin.downloader.model.DownloadFileInfo(
-                        fileInfo.getVersionId(),
-                        fileInfo.getTextVersion(),
-                        fileInfo.getFiasCompleteDbfUrl(),
-                        fileInfo.getFiasCompleteXmlUrl(),
-                        fileInfo.getFiasDeltaDbfUrl(),
-                        fileInfo.getFiasDeltaXmlUrl(),
-                        false
+        if (downloadFileInfoRepository.findByVersionId(fileInfo.getVersionId()) == null) {
+            ru.neshin.downloader.model.DownloadFileInfo downloadFileInfo = new
+                    ru.neshin.downloader.model.DownloadFileInfo(
+                    fileInfo.getVersionId(),
+                    fileInfo.getTextVersion(),
+                    fileInfo.getFiasCompleteDbfUrl(),
+                    fileInfo.getFiasCompleteXmlUrl(),
+                    fileInfo.getFiasDeltaDbfUrl(),
+                    fileInfo.getFiasDeltaXmlUrl(),
+                    false
             );
-        downloadFileInfoRepository.save(downloadFileInfo);
+            downloadFileInfoRepository.save(downloadFileInfo);
+        }
     }
 
     /***
