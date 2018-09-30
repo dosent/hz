@@ -1,4 +1,4 @@
-package ru.neshin.downloader;
+package ru.neshin.downloader.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +10,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
-public class ScheduledTasks {
-    private static final Logger LOG = LoggerFactory.getLogger(ScheduledTasks.class);
+public class ScheduledTasksService {
+    private static final Logger LOG = LoggerFactory.getLogger(ScheduledTasksService.class);
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
+    private final ReadFilesClient readFilesClient;
+
     @Autowired
-    private ReadFilesClient readFilesClient;
+    public ScheduledTasksService(ReadFilesClient readFilesClient) {
+        this.readFilesClient = readFilesClient;
+    }
 
     @Scheduled(fixedRateString = "${downloader.scheduled.time.milliseconds}")
     public void reportCurrentTime() {

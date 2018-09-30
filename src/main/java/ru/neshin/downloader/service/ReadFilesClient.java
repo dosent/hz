@@ -1,20 +1,20 @@
-package ru.neshin.downloader;
+package ru.neshin.downloader.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 import ru.neshin.downloader.dao.DownloadFileInfoRepository;
 import ru.neshin.downloader.fias.WSDL.*;
+import ru.neshin.downloader.service.ScheduledTasksService;
 
 @Component
 public class ReadFilesClient extends WebServiceGatewaySupport {
 
-    public static final String HTTP_FIAS_NALOG_RU_WEB_SERVICES_PUBLIC_DOWNLOAD_SERVICE_ASMX_GET_LAST_DOWNLOAD_FILE_INFO = "http://fias.nalog.ru/WebServices/Public/DownloadService.asmx/GetLastDownloadFileInfo";
-    public static final String HTTP_FIAS_NALOG_RU_WEB_SERVICES_PUBLIC_DOWNLOAD_SERVICE_ASMX_GET_ALL_DOWNLOAD_FILE_INFO = "http://fias.nalog.ru/WebServices/Public/DownloadService.asmx/GetAllDownloadFileInfo";
+    private static final String HTTP_FIAS_NALOG_RU_WEB_SERVICES_PUBLIC_DOWNLOAD_SERVICE_ASMX_GET_LAST_DOWNLOAD_FILE_INFO = "http://fias.nalog.ru/WebServices/Public/DownloadService.asmx/GetLastDownloadFileInfo";
+    private static final String HTTP_FIAS_NALOG_RU_WEB_SERVICES_PUBLIC_DOWNLOAD_SERVICE_ASMX_GET_ALL_DOWNLOAD_FILE_INFO = "http://fias.nalog.ru/WebServices/Public/DownloadService.asmx/GetAllDownloadFileInfo";
 
     private static boolean isReadyToWork = true;
 
@@ -22,9 +22,9 @@ public class ReadFilesClient extends WebServiceGatewaySupport {
     @Autowired
     private DownloadFileInfoRepository downloadFileInfoRepository;
 
-    private static final Logger LOG = LoggerFactory.getLogger(ScheduledTasks.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ScheduledTasksService.class);
 
-    public void work() {
+    void work() {
         if (isReadyToWork) {
             isReadyToWork = false;
             readFromFaip();
@@ -42,8 +42,6 @@ public class ReadFilesClient extends WebServiceGatewaySupport {
         } catch (Exception e) {
             LOG.error("Error read web service:");
             e.printStackTrace();
-        }
-        for (ru.neshin.downloader.model.DownloadFileInfo d: downloadFileInfoRepository.findAll()) {
         }
         LOG.info("Read web service stop");
     }
@@ -66,30 +64,22 @@ public class ReadFilesClient extends WebServiceGatewaySupport {
 
     /***
      * Возвращает информацию о всех версиях файлов, доступных для скачивания
-     * @return
      */
     private GetAllDownloadFileInfoResponse getAllDownloadFileInfo() {
 
         GetAllDownloadFileInfo request = new GetAllDownloadFileInfo();
-        String soapAction = HTTP_FIAS_NALOG_RU_WEB_SERVICES_PUBLIC_DOWNLOAD_SERVICE_ASMX_GET_ALL_DOWNLOAD_FILE_INFO;
-        SoapActionCallback requestCallback = new SoapActionCallback(
-                soapAction);
-        GetAllDownloadFileInfoResponse response =  (GetAllDownloadFileInfoResponse )getWebServiceTemplate()
+        SoapActionCallback requestCallback = new SoapActionCallback(HTTP_FIAS_NALOG_RU_WEB_SERVICES_PUBLIC_DOWNLOAD_SERVICE_ASMX_GET_ALL_DOWNLOAD_FILE_INFO);
+        return(GetAllDownloadFileInfoResponse)getWebServiceTemplate()
                 .marshalSendAndReceive(request, requestCallback);
-        return response;
     }
 
     /***
      * Возвращает информацию о последней версии файлов, доступных для скачивания
-     * @return
      */
     private GetLastDownloadFileInfoResponse getLastDownloadFileInfoResponse() {
         GetLastDownloadFileInfo request = new GetLastDownloadFileInfo();
-        String soapAction = HTTP_FIAS_NALOG_RU_WEB_SERVICES_PUBLIC_DOWNLOAD_SERVICE_ASMX_GET_LAST_DOWNLOAD_FILE_INFO;
-        SoapActionCallback requestCallback = new SoapActionCallback(
-                soapAction);
-        GetLastDownloadFileInfoResponse response =  (GetLastDownloadFileInfoResponse )getWebServiceTemplate()
+        SoapActionCallback requestCallback = new SoapActionCallback(HTTP_FIAS_NALOG_RU_WEB_SERVICES_PUBLIC_DOWNLOAD_SERVICE_ASMX_GET_LAST_DOWNLOAD_FILE_INFO);
+        return (GetLastDownloadFileInfoResponse)getWebServiceTemplate()
                 .marshalSendAndReceive(request, requestCallback);
-        return response;
     }
 }
