@@ -8,10 +8,9 @@ import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 import ru.neshin.downloader.dao.DownloadFileInfoRepository;
 import ru.neshin.downloader.fias.WSDL.*;
-import ru.neshin.downloader.service.ScheduledTasksService;
 
 @Component
-public class ReadFilesClient extends WebServiceGatewaySupport {
+public class ReadFilesClientService extends WebServiceGatewaySupport {
 
     private static final String HTTP_FIAS_NALOG_RU_WEB_SERVICES_PUBLIC_DOWNLOAD_SERVICE_ASMX_GET_LAST_DOWNLOAD_FILE_INFO = "http://fias.nalog.ru/WebServices/Public/DownloadService.asmx/GetLastDownloadFileInfo";
     private static final String HTTP_FIAS_NALOG_RU_WEB_SERVICES_PUBLIC_DOWNLOAD_SERVICE_ASMX_GET_ALL_DOWNLOAD_FILE_INFO = "http://fias.nalog.ru/WebServices/Public/DownloadService.asmx/GetAllDownloadFileInfo";

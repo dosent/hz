@@ -15,17 +15,17 @@ public class ScheduledTasksService {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    private final ReadFilesClient readFilesClient;
+    private final ReadFilesClientService readFilesClientService;
 
     @Autowired
-    public ScheduledTasksService(ReadFilesClient readFilesClient) {
-        this.readFilesClient = readFilesClient;
+    public ScheduledTasksService(ReadFilesClientService readFilesClient) {
+        this.readFilesClientService = readFilesClient;
     }
 
     @Scheduled(fixedRateString = "${downloader.scheduled.time.milliseconds}")
     public void reportCurrentTime() {
         LOG.info("The time is now {}", dateFormat.format(new Date()));
-        readFilesClient.work();
+        readFilesClientService.work();
     }
 
 }
