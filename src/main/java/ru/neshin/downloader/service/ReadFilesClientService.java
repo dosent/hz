@@ -27,7 +27,24 @@ public class ReadFilesClientService extends WebServiceGatewaySupport {
         if (isReadyToWork) {
             isReadyToWork = false;
             readFromFaip();
+            downloadFile();
             isReadyToWork = true;
+        }
+    }
+
+    private void downloadFile() {
+        //файл который сохранен т.е. максимальная версия и флаг загрузки установлен
+        ru.neshin.downloader.model.DownloadFileInfo wasSaveLocalFile = downloadFileInfoRepository.findTopByVersionIdAndSaveLocalFile(true);
+        //файл который необходимо сохранить т.е. максимальная версия и флаг загрузки не установлен
+        ru.neshin.downloader.model.DownloadFileInfo savedLocalFile = downloadFileInfoRepository.findTopByVersionIdAndSaveLocalFile(false);
+
+        //нет ниодно сохраненного файла
+        if (wasSaveLocalFile == null) {
+            LOG.info("Надо загрузить послению максимальную версию");
+        } else if (wasSaveLocalFile.getVersionId() >= savedLocalFile.getVersionId()) {
+            LOG.info("Загружена максимальная версия, ничего делать не надо");
+        } else {
+            LOG.info("нужно загружать обновления");
         }
     }
 
