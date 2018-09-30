@@ -19,7 +19,7 @@ public class DownloadFileInfo {
     private String fiasDeltaXmlUrl;
     private boolean isSaveLocalFile;
 
-    protected DownloadFileInfo() {};
+    protected DownloadFileInfo() {}
 
     public DownloadFileInfo(int versionId, String textVersion, String fiasCompleteDbfUrl, String fiasCompleteXmlUrl, String fiasDeltaDbfUrl, String fiasDeltaXmlUrl, boolean isSaveLocalFile) {
         this.versionId = versionId;
@@ -29,6 +29,54 @@ public class DownloadFileInfo {
         this.fiasDeltaDbfUrl = fiasDeltaDbfUrl;
         this.fiasDeltaXmlUrl = fiasDeltaXmlUrl;
         this.isSaveLocalFile = isSaveLocalFile;
+    }
+
+    public int getVersionId() {
+        return versionId;
+    }
+
+    public String getTextVersion() {
+        return textVersion;
+    }
+
+    public String getFiasCompleteDbfUrl() {
+        return fiasCompleteDbfUrl;
+    }
+
+    public String getFiasCompleteXmlUrl() {
+        return fiasCompleteXmlUrl;
+    }
+
+    public String getFiasDeltaDbfUrl() {
+        return fiasDeltaDbfUrl;
+    }
+
+    public String getFiasDeltaXmlUrl() {
+        return fiasDeltaXmlUrl;
+    }
+
+    public boolean isSaveLocalFile() {
+        return isSaveLocalFile;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DownloadFileInfo that = (DownloadFileInfo) o;
+
+        return (versionId != that.versionId) &&
+                (isSaveLocalFile != that.isSaveLocalFile) &&
+                downloadFileInfoId.equals(that.downloadFileInfoId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = downloadFileInfoId.hashCode();
+        result = 31 * result + versionId;
+        result = 31 * result + (isSaveLocalFile ? 1 : 0);
+        return result;
     }
 
     @Override
