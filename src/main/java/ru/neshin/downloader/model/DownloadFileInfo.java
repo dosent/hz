@@ -18,10 +18,14 @@ public class DownloadFileInfo {
     private String fiasDeltaDbfUrl;
     private String fiasDeltaXmlUrl;
     private boolean isSaveLocalFile;
+    private boolean isDeltaSaveLocalFile;
+    private String fiasCompleteXmlLocalFile;
+    private String fiasDeltaXmlLocalFile;
 
     protected DownloadFileInfo() {}
 
-    public DownloadFileInfo(int versionId, String textVersion, String fiasCompleteDbfUrl, String fiasCompleteXmlUrl, String fiasDeltaDbfUrl, String fiasDeltaXmlUrl, boolean isSaveLocalFile) {
+    public DownloadFileInfo(int versionId, String textVersion, String fiasCompleteDbfUrl, String fiasCompleteXmlUrl, String fiasDeltaDbfUrl, String fiasDeltaXmlUrl, boolean isSaveLocalFile, boolean isDeltaSaveLocalFile, String fiasCompleteXmlLocalFile, String fiasDeltaXmlLocalFile) {
+
         this.versionId = versionId;
         this.textVersion = textVersion;
         this.fiasCompleteDbfUrl = fiasCompleteDbfUrl;
@@ -29,6 +33,9 @@ public class DownloadFileInfo {
         this.fiasDeltaDbfUrl = fiasDeltaDbfUrl;
         this.fiasDeltaXmlUrl = fiasDeltaXmlUrl;
         this.isSaveLocalFile = isSaveLocalFile;
+        this.isDeltaSaveLocalFile = isDeltaSaveLocalFile;
+        this.fiasCompleteXmlLocalFile = fiasCompleteXmlLocalFile;
+        this.fiasDeltaXmlLocalFile = fiasDeltaXmlLocalFile;
     }
 
     public int getVersionId() {
@@ -91,5 +98,33 @@ public class DownloadFileInfo {
                 ", fiasDeltaXmlUrl='" + fiasDeltaXmlUrl + '\'' +
                 ", isSaveLocalFile=" + isSaveLocalFile +
                 '}';
+    }
+
+    public void setSaveLocalFile(boolean saveLocalFile) {
+        isSaveLocalFile = saveLocalFile;
+    }
+
+    public String getFiasCompleteXmlLocalFile() {
+        return fiasCompleteXmlLocalFile;
+    }
+
+    public void setFiasCompleteXmlLocalFile(String fiasCompleteXmlLocalFile) {
+        this.fiasCompleteXmlLocalFile = fiasCompleteXmlLocalFile;
+    }
+
+    public String getFiasDeltaXmlLocalFile() {
+        return fiasDeltaXmlLocalFile;
+    }
+
+    public void setFiasDeltaXmlLocalFile(String fiasDeltaXmlLocalFile) {
+        this.fiasDeltaXmlLocalFile = fiasDeltaXmlLocalFile;
+    }
+
+    public boolean isDeltaSaveLocalFile() {
+        return isDeltaSaveLocalFile;
+    }
+
+    public void setDeltaSaveLocalFile(boolean deltaSaveLocalFile) {
+        isDeltaSaveLocalFile = deltaSaveLocalFile;
     }
 }
